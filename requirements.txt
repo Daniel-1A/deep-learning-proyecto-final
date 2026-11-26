@@ -1,0 +1,14 @@
+# Versiones principales observadas en las ejecuciones de Colab.
+# Los rangos restantes no constituyen un bloqueo completo del entorno.
+tensorflow==2.21.0
+numpy==2.4.6
+pandas==2.2.3
+datasets==4.8.5
+xlrd==2.0.1
+scikit-learn>=1.2,<2
+matplotlib>=3.7,<4
+Pillow>=10
+joblib>=1.3
+h5py>=3.10
+ipython>=8
+notebook>=7
