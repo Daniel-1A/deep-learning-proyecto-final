@@ -78,6 +78,21 @@ En MLP, precision/recall/F1 corresponden a incumplimiento (clase 1); en CNN son 
 
 La referencia semanal fue la mejor de las referencias en validación. La LSTM redujo su MAE de prueba aproximadamente 50.51 %. Estos resultados corresponden a los 2,435 objetivos elegibles; no representan horas excluidas por falta de historial.
 
+## Extra: Transformer
+
+[Notebook ejecutado en Colab: 04_Transformer.ipynb](https://colab.research.google.com/drive/1p_s989gcjvhRcMqQ2o5ecwYVCCA1YR8Q). El enlace de Drive puede requerir autorización. La copia local del notebook está pendiente de descarga.
+
+Se implementó desde cero un Transformer para Bike Sharing, con las mismas variables, ventanas de 24 horas y particiones temporales de la LSTM. Se compararon uno y dos bloques mediante MAE de validación. Cada bloque contiene atención causal de dos cabezas, conexiones residuales, normalización y una red feed-forward 64/GELU → 32; se añaden posiciones aprendidas y una salida para la siguiente hora.
+
+Se seleccionó un bloque, con 10,177 parámetros y checkpoint de la época 22 de 25. Adam 0.001, batch 64, dropout 0.1 y early stopping con paciencia 5. Los escaladores se ajustaron solo con entrenamiento.
+
+| Modelo | MAE (alquileres/hora) | RMSE (alquileres/hora) | R² |
+|---|---:|---:|---:|
+| Transformer de un bloque | 30.3344 | 46.3095 | 0.9540 |
+
+El MAE se redujo 52.62 % frente a la referencia semanal y 4.27 % frente a la ejecución previa de LSTM. Esta comparación reutiliza un periodo de prueba ya examinado; es descriptiva y no constituye una nueva evaluación independiente. No se ajustaron configuraciones según prueba.
+
+El notebook conserva curvas de entrenamiento, mapas de atención de validación, pronósticos, residuos y ejemplos de errores. Se verificaron numéricamente la máscara causal y la equivalencia de inferencia tras guardar y recargar el modelo y ambos escaladores. Los archivos generados se escriben en `/content/resultados_transformer`, carpeta temporal de Colab. No requiere dependencias adicionales a las del proyecto.
 ## Instalación y ejecución
 
 ### Google Colab — entorno utilizado
